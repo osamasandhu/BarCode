@@ -25,7 +25,7 @@ class _FavouriteState extends State<Favourite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: AppDrawer(),        appBar: AppBar(centerTitle: true,
+       appBar: AppBar(centerTitle: true,
       title: Text('Favourite'),
     ),
         body:favourites.isEmpty? Padding(

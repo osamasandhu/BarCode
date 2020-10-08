@@ -53,7 +53,6 @@ class _MyQRState extends State<MyQR> {
               })
         ],
       ),
-      drawer: AppDrawer(),
       body: Form(
         autovalidate: autoValidate,
         key: _formKey,
@@ -162,7 +161,9 @@ class _QRState extends State<QR> {
   vCard.organization =widget.organization;
   vCard.cellPhone =widget.phone;
   vCard.jobTitle=widget.address;
-vCard.email=widget.email;
+vCard.email=
+     widget.email;
+
 // vCard.saveToFile('./contact.vcf');
  print(vCard.getFormattedString());
     return Scaffold(
@@ -175,7 +176,7 @@ vCard.email=widget.email;
               width: 200,
               height: 200,
               child: QrImage(
-                data:vCard.getFormattedString()
+                data:vCard.getFormattedString().splitMapJoin(widget.name,)
   //              vCard==null? vCard.toString():vCard.toString().substring(0,6),
                , version: QrVersions.auto,
                 gapless: false,
@@ -202,10 +203,9 @@ vCard.email=widget.email;
                     lisTile(title: 'Name', subtitle: widget.name),
                     lisTile(
                         title: 'Organization', subtitle: widget.organization),
-                    lisTile(title: 'Email', subtitle: widget.email),
+                  lisTile(title: 'Email', subtitle: widget.email),
                     lisTile(title: 'Phone', subtitle: widget.phone),
                     lisTile(title: 'Address', subtitle: widget.address),
-                    lisTile(title: 'Name', subtitle: widget.email),
                   ],
                 ),
               ))

@@ -4,20 +4,23 @@ import 'dart:io' show Platform;
 import 'package:barCodeScanner/custom-navigator.dart';
 import 'package:barCodeScanner/drawe.dart';
 import 'package:barCodeScanner/history.dart';
-import 'package:barCodeScanner/ml-vision.dart';
+import 'package:barCodeScanner/scanImage.dart';
 import 'package:barCodeScanner/model/appData.dart';
 import 'package:barCodeScanner/model/historyModel.dart';
+import 'package:barCodeScanner/myQR.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await AppData.init();
-
   runApp(_MyApp());
 }
 
@@ -31,7 +34,7 @@ class _MyAppState extends State<_MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
-            primaryColor: Colors.purple[200], accentColor: Colors.purple[200]),
+            primaryColor: Colors.black, accentColor: Colors.black),
         debugShowCheckedModeBanner: false,
         home
       :Home()
@@ -107,38 +110,46 @@ controller =TabController(vsync: this,length: 2);
   Widget build(BuildContext context) {
     var contentList = <Widget>[
       if (scanResult != null)
-        Card(
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                title: Text("Result Type"),
-                subtitle: Text(scanResult.type?.toString() ?? ""),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Material(elevation: 8,borderRadius:
+              BorderRadius.circular(8),
+
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    title: Text("Result Type"),
+                    subtitle: Text(scanResult.type?.toString() ?? ""),
+                  ),
+                  ListTile(
+                    title: Text("Raw Content"),
+                    subtitle: Text(scanResult.rawContent ?? ""),
+                  ),
+                  ListTile(
+                    title: Text("Format"),
+                    subtitle: Text(scanResult.format?.toString() ?? ""),
+                  ),
+                  // ListTile(
+                  //   title: Text("Format note"),
+                  //   subtitle: Text(scanResult.formatNote ?? ""),
+                  // ),
+                ],
               ),
-              ListTile(
-                title: Text("Raw Content"),
-                subtitle: Text(scanResult.rawContent ?? ""),
-              ),
-              ListTile(
-                title: Text("Format"),
-                subtitle: Text(scanResult.format?.toString() ?? ""),
-              ),
-              // ListTile(
-              //   title: Text("Format note"),
-              //   subtitle: Text(scanResult.formatNote ?? ""),
-              // ),
-            ],
+            ),
           ),
         )
       else
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Text(
-              'No Record',
-              style: TextStyle(color: Colors.red, fontSize: 30),
-              textAlign: TextAlign.center,
-            ),
-          ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Material(elevation: 8,borderRadius:
+          BorderRadius.circular(8),
+              child: Container(child: ListTile(
+
+            title: Text('Empty'),
+            subtitle: Text(
+              'No Code',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
+          ),)),
         )
     ];
     return Builder(
@@ -178,9 +189,6 @@ controller =TabController(vsync: this,length: 2);
           shrinkWrap: true,
           children: contentList,
         ),
-        floatingActionButton:
-        FloatingActionButton(onPressed: (){CustomNavigator.navigateTo(context, MyHomePage());}),
-
       ),
     );
   }

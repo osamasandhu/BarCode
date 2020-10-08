@@ -34,22 +34,26 @@ class _ViewFavouriteState extends State<ViewFavourite> {
               await Share.share(widget.raw);
             })
       ]),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListTile(
-              title: Text("Result Type"),
-              subtitle: Text(widget.type),
+      body: SingleChildScrollView(padding: EdgeInsets.all(15),
+        child: Material(
+     elevation: 8,borderRadius: BorderRadius.circular(8),     child: Container(
+decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),            child: Column(
+              children: [
+                ListTile(
+                  title: Text("Result Type"),
+                  subtitle: Text(widget.type),
+                ),
+                ListTile(
+                  title: Text("Raw Content"),
+                  subtitle: Text(widget.raw),
+                ),
+                ListTile(
+                  title: Text("Format"),
+                  subtitle: Text(widget.format),
+                ),
+              ],
             ),
-            ListTile(
-              title: Text("Raw Content"),
-              subtitle: Text(widget.raw),
-            ),
-            ListTile(
-              title: Text("Format"),
-              subtitle: Text(widget.format),
-            ),
-          ],
+          ),
         ),
       ),
     );

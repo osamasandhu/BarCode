@@ -18,7 +18,7 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        drawer: AppDrawer(),
+     //   drawer: AppDrawer(),
         appBar: AppBar(
           centerTitle: true,
           title: Text('History'),
